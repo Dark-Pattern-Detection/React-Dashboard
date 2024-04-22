@@ -11,7 +11,7 @@
 }
 
 .selected {
-    background-color: #f0f0f0;
+    background-color: #cccccc;
     font-weight: bold;
     color: #333;
 }
@@ -54,7 +54,7 @@ li {
 }
 
 li:hover {
-    background-color: #cccccc;
+    background-color: #aaaaaa;
     font-weight: bold;
     color: #333;
 }
