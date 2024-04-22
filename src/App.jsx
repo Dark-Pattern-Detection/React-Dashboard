@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { format } from 'date-fns';
 
 const WebsiteList = () => {
   const [darkPatternList, setDarkPatternList] = useState([]);
@@ -47,15 +48,11 @@ const WebsiteList = () => {
   };
 
   const handleURLClick = (webURL) => {
-    
-    window.open('https://www.google.com/', '_blank');
     setSelectedURL(webURL);
-    //console.log(webURL);
     const websiteData = darkPatternList.filter(item => item.web_url === webURL);
-    
+
     if (websiteData) {
-      const patterns=websiteData.map((item)=>{return {pattern:item.text,time:item.timestamp}});
-      console.log(patterns);
+      const patterns = websiteData.map((item) => { return { pattern: item.text, time: item.timestamp } });
       setSelectedDarkPatterns(patterns);
       //setSelectedTimestamp(websiteData.timestamp);
     }
@@ -63,75 +60,68 @@ const WebsiteList = () => {
 
   return (
     <div className='maindiv'>
-    <div className='topdiv'>
-      <h2>total dark patterns detacted till now : {darkPatternList.length}</h2>
-
-    </div>
-    <div className="container">
-      <div className="domain-list">
-        <h1>Domain List</h1>
-        <ul>
-          {uniqueDomains.map((domain) => (
-            <li
-              key={domain}
-              onClick={() => handleDomainClick(domain)}
-              role="button"
-              tabIndex={0}
-            >
-              {domain}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="url-list">
-        {selectedDomain && (
-          <div>
-            <h2>URLs for {selectedDomain}</h2>
-            <ul>
-              {uniqueURLs.map((webURL) => (
-                <li
-                  key={webURL}
-                  onClick={() => handleURLClick(webURL)}
-                  role="button"
-                  tabIndex={0}
-                >
-                  {webURL}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-      <div className="dark-pattern-list">
-        {selectedURL && (
-          <div>
-            <table>
-            <thead>
-                    <tr>
-                        <th>detected dark pattern</th>
-                        <th>detected on</th>
-                        
-                    </tr>
+      <h1 className='main-heading'>Dark Pattern Buster Statistics</h1>
+      <div className="container">
+        <div className="domain-list">
+          <h2 className='sub-heading'>Domain List</h2>
+          <ul>
+            {uniqueDomains.map((domain) => (
+              <li
+                key={domain}
+                onClick={() => handleDomainClick(domain)}
+                className={selectedDomain === domain ? 'selected' : ''}
+                role="button"
+                tabIndex={0}
+              >
+                {domain}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="url-list">
+          <h2 className='sub-heading'>URLs</h2>
+          {selectedDomain && (
+            <div>
+              <ul>
+                {uniqueURLs.map((webURL) => (
+                  <li
+                    key={webURL}
+                    onClick={() => handleURLClick(webURL)}
+                    className={selectedURL === webURL ? 'selected' : ''}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    {webURL.substr(0, 40)}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        <div className="dark-pattern-list">
+          <h2 className='sub-heading'>Dark Patterns</h2>
+          {selectedURL && (
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>detected dark pattern</th>
+                    <th>detected on</th>
+                  </tr>
                 </thead>
                 <tbody>
-                {selectedDarkPatterns.map((row, index) => (
-                            <tr key={index}>
-                                <td>{row.pattern}</td>
-                                <td>{row.time}</td>
-                            </tr>
-                        ))}
+                  {selectedDarkPatterns.map((row, index) => (
+                    <tr key={index}>
+                      <td>{row.pattern}</td>
+                      <td>{format(new Date(row.time), 'dd/MM/yyyy hh:mm')}</td>
+                    </tr>
+                  ))}
                 </tbody>
-            </table>
-            {/* <h2>Dark Patterns for {selectedURL}</h2>
-            <ul>
-              {selectedDarkPatterns.map((pattern, index) => (
-                <li key={index}>{pattern} </li>
-              ))}
-            </ul> */}
-          </div>
-        )}
+              </table>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };
