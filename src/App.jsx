@@ -10,7 +10,7 @@ const WebsiteList = () => {
   const [selectedURL, setSelectedURL] = useState(null);
   const [selectedDarkPatterns, setSelectedDarkPatterns] = useState([]);
   const [selectedTimestamp, setSelectedTimestamp] = useState('');
-  const apiEndpoint = 'http://localhost:3000/items'; // Replace with your API endpoint URL
+  const apiEndpoint = 'http://localhost:5000/items'; // Replace with your API endpoint URL
 
   // Fetch DarkPatternList from the API when the component mounts
   useEffect(() => {
@@ -48,6 +48,7 @@ const WebsiteList = () => {
   };
 
   const handleURLClick = (webURL) => {
+    window.open(webURL, '_blank');
     setSelectedURL(webURL);
     const websiteData = darkPatternList.filter(item => item.web_url === webURL);
 
