@@ -52,7 +52,7 @@ const WebsiteList = () => {
   }
 
   const handleURLClick = (webURL) => {
-    window.open(webURL, '_blank')
+    //window.open(webURL, '_blank')
     setSelectedURL(webURL)
     const websiteData = darkPatternList.filter(
       (item) => item.web_url === webURL
